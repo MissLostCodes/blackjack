@@ -1,0 +1,133 @@
+############### Blackjack Project #####################
+
+
+import random 
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+def deal_card():
+  return random.choice(cards)
+
+user_cards = []
+computer_cards = []
+n= 0 
+while (n<2) :
+  user_cards.append(deal_card())
+  computer_cards.append(deal_card())
+  n= n+1
+print(f"your cards --->{user_cards}")
+print(f"computer cards --->{computer_cards[1]}")
+#computer_cards = []
+
+
+def calculate_score() :
+  score_card={}
+  sum_computer = 0
+  for i in range (0 , len(computer_cards)):
+    sum_computer = sum_computer + computer_cards[i]
+  sum_user = 0 
+  for i in range (0 , len(user_cards)):
+    sum_user = sum_user + user_cards[i]
+  score_card["user_score"]= sum_user
+  score_card["computer_score"]= sum_computer
+  return score_card
+
+  
+a = calculate_score() 
+
+k=0
+def win():
+   
+   print(".........you win........")
+   print(f"your final hand :{user_cards}")
+   print(f"computer's final hand :{computer_cards}")
+   
+   
+def lose():
+ 
+  print(".........you lose.........")
+  print(f"your final hand :{user_cards}")
+  print(f"computer's final hand :{computer_cards}")
+  
+
+def win_check() :
+  
+  if a["computer_score"] > a["user_score"] :
+         lose()
+        
+  elif a["computer_score"] == a["user_score"] :
+        print("............draw.........")
+        print(f"your final hand :{user_cards}")
+        print(f"computer's final hand :{computer_cards}")
+  else :
+        win()
+def ace() :
+  if a["user_score"] > 21 :
+    if 11 in user_cards :
+      user_cards.remove(11)
+      user_cards.append(1)
+      calculate_score()
+  if a["computer_score"] > 21 :
+    if 11 in computer_cards :
+      computer_cards.remove(11)
+      computer_cards.append(1)
+      calculate_score()
+
+
+if a["user_score"]==21 :
+  win()
+  k=2
+elif a["computer_score"]==21  :
+  lose()
+  k=2
+else : 
+  if a["user_score"] >21 | a["computer_score"]>21:
+    ace()
+    a=calculate_score()
+    if a["user_score"]==21 :
+      win()
+      k=2
+      
+    elif a["computer_score"]==21  :
+      lose()
+      k=2
+  
+  else:
+    while (a["user_score"]<21  ) :
+      answer = input("do you want to draw another card ? y or n  ")
+      if answer == "y" :
+        user_cards.append(deal_card())
+        b=calculate_score()
+        a["user_score"] = b["user_score"]  
+        if a["user_score"] > 21 :
+          lose()
+          break
+        
+          
+        else :
+          
+          while a["computer_score"]<17 :
+            computer_cards.append(deal_card())
+            a=calculate_score()
+            ace() 
+          if a["computer_score"] <= 21 :
+        
+    
+            if a["user_score"] < 21 :
+              print("you get another turn >>>>>>>>>")
+              print(f"your hand --->{user_cards}")
+                      
+            elif a["computer_score"] == a["user_score"] :
+              print("............draw.........")
+              break
+              print(f"your final hand :{user_cards}")
+              print(f"computer's final hand :{computer_cards}")
+            else :
+             win()
+             break
+          else :
+           win()
+           break    
+      else :
+       win_check()
+       break
+print(a)
+
